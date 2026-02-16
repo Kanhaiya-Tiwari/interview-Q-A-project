@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: interview_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: interview_db
+      MYSQL_USER: interview_user
+      MYSQL_PASSWORD: interview_password
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - interview_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+
+  # Node.js Application
+  app:
+    build: .
+    container_name: interview_app
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: interview_db
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - interview_network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  interview_network:
+    driver: bridge

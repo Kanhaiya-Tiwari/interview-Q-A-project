@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Interview Q&A - By Kanhaiya Tiwari</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1a202c 100%);
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid #334155;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #3b82f6, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 0.95em;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: #1e293b;
+      border-radius: 20px;
+      font-size: 0.85em;
+    }
+
+    .status.connected {
+      border-left: 4px solid #10b981;
+      color: #10b981;
+    }
+
+    .status.disconnected {
+      border-left: 4px solid #ef4444;
+      color: #ef4444;
+    }
+
+    .form-section {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-section h2 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      color: #3b82f6;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    button {
+      background: linear-gradient(45deg, #3b82f6, #2563eb);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .faq {
+      margin-top: 40px;
+    }
+
+    .faq-title {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #10b981;
+    }
+
+    .faq-count {
+      display: inline-block;
+      background: #334155;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      margin-left: 10px;
+      color: #94a3b8;
+    }
+
+    .item {
+      background: #1e293b;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border-left: 4px solid #3b82f6;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      border-left-color: #10b981;
+    }
+
+    .question {
+      padding: 18px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+    }
+
+    .question-text {
+      flex: 1;
+    }
+
+    .question-num {
+      background: #334155;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      color: #94a3b8;
+      margin-right: 12px;
+    }
+
+    .toggle-icon {
+      color: #64748b;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .item.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .answer {
+      padding: 18px;
+      background: #0f172a;
+      display: none;
+      line-height: 1.6;
+      color: #cbd5e1;
+      border-top: 1px solid #334155;
+    }
+
+    .item.open .answer {
+      display: block;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+    }
+
+    .empty-state-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+    }
+
+    .success-message {
+      background: #10b981;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .error-message {
+      background: #ef4444;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>DevOps Interview Q&A by Kanhaiya Tiwari</h1>
+    <p class="subtitle">Kanha please store your common devops Interview question & Answer </p>
+    <div class="status connected" id="status">
+      <span id="status-text">Connected to Database</span>
+    </div>
+  </header>
+
+  <div class="form-section">
+    <h2>➕ Add New Question</h2>
+    <div class="success-message" id="successMessage">✓ Kanha Question added successfully!</div>
+    <div class="error-message" id="errorMessage"></div>
+    
+    <form id="questionForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="qNum">Question Number *</label>
+          <input type="number" id="qNum" placeholder="e.g., 1" required min="1">
+        </div>
+        <div class="form-group">
+          <label for="qText">Question *</label>
+          <input type="text" id="qText" placeholder="e.g., Tell me about yourself" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="qAnswer">Answer *</label>
+        <textarea id="qAnswer" placeholder="Enter detailed answer here..." required></textarea>
+      </div>
+      <button type="submit">Kanha Add Your Question</button>
+    </form>
+  </div>
+
+  <div class="faq">
+    <h2 class="faq-title">
+      📋 All Questions
+      <span class="faq-count" id="questionCount">0 questions</span>
+    </h2>
+    <div id="faqList" class="faq-container">
+      <div class="loading">Loading questions...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API_BASE = '/api';
+  const form = document.getElementById('questionForm');
+  const faqList = document.getElementById('faqList');
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
+  const statusElement = document.getElementById('status');
+  const questionCount = document.getElementById('questionCount');
+
+  // Initialize
+  checkDatabaseConnection();
+  loadQuestions();
+
+  // Check database connection
+  async function checkDatabaseConnection() {
+    try {
+      const response = await fetch(`${API_BASE}/health`);
+      const data = await response.json();
+      
+      if (data.database === 'connected') {
+        statusElement.classList.add('connected');
+        statusElement.classList.remove('disconnected');
+        document.getElementById('status-text').textContent = '🟢 Connected to Database';
+      } else {
+        setDisconnected();
+      }
+    } catch (error) {
+      setDisconnected();
+    }
+  }
+
+  function setDisconnected() {
+    statusElement.classList.remove('connected');
+    statusElement.classList.add('disconnected');
+    document.getElementById('status-text').textContent = '🔴 Database Disconnected';
+  }
+
+  // Load all questions from database
+  async function loadQuestions() {
+    try {
+      const response = await fetch(`${API_BASE}/questions`);
+      const questions = await response.json();
+      
+      renderQuestions(questions);
+    } catch (error) {
+      faqList.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">⚠️</div>
+          <p>Error loading questions: ${error.message}</p>
+        </div>
+      `;
+    }
+  }
+
+  // Render questions to DOM
+  function renderQuestions(questions) {
+    if (questions.length === 0) {
+      faqList.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <p>No questions yet. Add one to get started!</p>
+        </div>
+      `;
+      questionCount.textContent = '0 questions';
+      return;
+    }
+
+    faqList.innerHTML = '';
+    questions.forEach(q => {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = `
+        <div class="question">
+          <span class="question-num">#${q.question_num}</span>
+          <span class="question-text">${escapeHtml(q.question)}</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="answer">${escapeHtml(q.answer).replace(/\n/g, '<br>')}</div>
+      `;
+      
+      item.addEventListener('click', (e) => {
+        if (!e.target.closest('.delete-btn')) {
+          item.classList.toggle('open');
+        }
+      });
+      
+      faqList.appendChild(item);
+    });
+
+    questionCount.textContent = `${questions.length} question${questions.length !== 1 ? 's' : ''}`;
+  }
+
+  // Add new question
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const question_num = document.getElementById('qNum').value;
+    const question = document.getElementById('qText').value;
+    const answer = document.getElementById('qAnswer').value;
+
+    try {
+      const response = await fetch(`${API_BASE}/questions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question_num, question, answer })
+      });
+
+      if (!response.ok) throw new Error('Failed to add question');
+
+      // Success
+      showSuccessMessage('✓ Question added successfully!');
+      form.reset();
+      
+      // Reload questions
+      setTimeout(loadQuestions, 500);
+    } catch (error) {
+      showErrorMessage(`Error: ${error.message}`);
+    }
+  });
+
+  // Helper functions
+  function showSuccessMessage(msg) {
+    successMessage.textContent = msg;
+    successMessage.classList.add('show');
+    setTimeout(() => {
+      successMessage.classList.remove('show');
+    }, 3000);
+  }
+
+  function showErrorMessage(msg) {
+    errorMessage.textContent = msg;
+    errorMessage.classList.add('show');
+    setTimeout(() => {
+      errorMessage.classList.remove('show');
+    }, 4000);
+  }
+
+  function escapeHtml(text) {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  }
+
+  // Check connection every 5 seconds
+  setInterval(checkDatabaseConnection, 5000);
+</script>
+
+</body>
+</html>
