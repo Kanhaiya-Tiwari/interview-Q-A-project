@@ -24,7 +24,7 @@ services:
 
   # Node.js Application
   app:
-    build: .
+    image: kanhaiyatiwari/interview-app:latest
     container_name: interview_app
     environment:
       DB_HOST: mysql
