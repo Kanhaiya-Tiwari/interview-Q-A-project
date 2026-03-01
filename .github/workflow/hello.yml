@@ -1,0 +1,19 @@
+name: hii
+on: 
+  push: 
+    branches: [ "master" ]
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: users
+        run: echo "how are you"
+
+    hello:
+      runs-on: ubuntu-latest
+      steps: 
+        -name: pass
+         run: echo "this is your pass"
+      
+  
